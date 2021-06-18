@@ -15,6 +15,7 @@ import org.openstack4j.api.murano.v1.AppCatalogService;
 import org.openstack4j.api.networking.NetworkingService;
 import org.openstack4j.api.networking.ext.ServiceFunctionChainService;
 import org.openstack4j.api.octavia.OctaviaService;
+import org.openstack4j.api.placement.PlacementService;
 import org.openstack4j.api.sahara.SaharaService;
 import org.openstack4j.api.senlin.SenlinService;
 import org.openstack4j.api.tacker.TackerService;
@@ -33,8 +34,10 @@ public class Apis {
     /**
      * Gets the API implementation based on Type
      *
-     * @param <T> the API type
-     * @param api the API implementation
+     * @param <T>
+     *            the API type
+     * @param api
+     *            the API implementation
      * @return the API implementation
      */
     public static <T> T get(Class<T> api) {
@@ -75,6 +78,15 @@ public class Apis {
      */
     public static NetworkingService getNetworkingServices() {
         return get(NetworkingService.class);
+    }
+
+    /**
+     * Gets the placement services API
+     *
+     * @return the placement services
+     */
+    public static PlacementService getPlacementServices() {
+        return get(PlacementService.class);
     }
 
     /**
@@ -124,7 +136,6 @@ public class Apis {
 
     /**
      * Gets the (Glance) Image v2 services API
-     *
      * @return the image v2 services
      */
     public static org.openstack4j.api.image.v2.ImageService getImageV2Service() {
@@ -178,7 +189,6 @@ public class Apis {
 
     /**
      * Gets the group based policy services API
-     *
      * @return the gbp services
      */
     public static GbpService getGbpServices() {
@@ -187,7 +197,6 @@ public class Apis {
 
     /**
      * Gets the trove services API
-     *
      * @return the trove services
      */
     public static TroveService getTroveServices() {
@@ -196,7 +205,6 @@ public class Apis {
 
     /**
      * Gets the (Senlin) Orchestration services API
-     *
      * @return the Senlin services
      */
     public static SenlinService getSenlinServices() {
@@ -214,7 +222,6 @@ public class Apis {
 
     /**
      * Gets the (BarbicanService) Orchestration services API
-     *
      * @return the BarbicanService services
      */
     public static BarbicanService getBarbicanServices() {
@@ -223,13 +230,11 @@ public class Apis {
 
     /**
      * Gets the dns services API
-     *
      * @return the dns services
      */
     public static DNSService getDNSService() {
         return get(DNSService.class);
     }
-
 
     private static APIProvider initializeProvider() {
         // No need to check for emptiness as there is default implementation registered

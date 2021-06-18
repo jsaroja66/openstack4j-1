@@ -17,6 +17,7 @@ import org.openstack4j.api.murano.v1.AppCatalogService;
 import org.openstack4j.api.networking.NetworkingService;
 import org.openstack4j.api.networking.ext.ServiceFunctionChainService;
 import org.openstack4j.api.octavia.OctaviaService;
+import org.openstack4j.api.placement.PlacementService;
 import org.openstack4j.api.sahara.SaharaService;
 import org.openstack4j.api.senlin.SenlinService;
 import org.openstack4j.api.storage.BlockStorageService;
@@ -72,7 +73,7 @@ public interface OSClient<T extends OSClient<T>> {
      * @param headers the headers to use for keystone tokenless
      * @return OSClient for method chaining
      */
-    T headers(Map<String, String> headers);
+    T headers(Map<String, ? extends Object> headers);
 
     /**
      * Gets the supported services. A set of ServiceTypes will be returned
@@ -172,6 +173,13 @@ public interface OSClient<T extends OSClient<T>> {
      * @return the networking service
      */
     NetworkingService networking();
+
+    /**
+     * Returns the Placement Service API
+     *
+     * @return the placement service
+     */
+    PlacementService placement();
 
     /**
      * Returns the SFC Service API
@@ -279,6 +287,48 @@ public interface OSClient<T extends OSClient<T>> {
     MagnumService magnum();
 
     /**
+     * OpenStack4j Client which authenticates against version V2
+     */
+    public interface OSClientV2 extends OSClient<OSClient.OSClientV2> {
+
+        /**
+         * Returns the Identity V2 Access object assigned during authentication
+         *
+         * @return the Access object
+         */
+        Access getAccess();
+
+        /**
+         * Returns the Identity Service API V2
+         *
+         * @return the identity service version 2
+         */
+        org.openstack4j.api.identity.v2.IdentityService identity();
+
+    }
+
+    /**
+     * OpenStack4j Client which authenticates against version V3
+     */
+    public interface OSClientV3 extends OSClient<OSClient.OSClientV3> {
+
+        /**
+         * Gets the token that was assigned during authorization
+         *
+         * @return the authentication token
+         */
+        Token getToken();
+
+        /**
+         * Returns the Identity Service API V3
+         *
+         * @return the identity service version 3
+         */
+        org.openstack4j.api.identity.v3.IdentityService identity();
+
+    }
+
+    /**
      * Returns the Gbp Service API
      *
      * @return the Gbp service
@@ -312,47 +362,4 @@ public interface OSClient<T extends OSClient<T>> {
      * @return the DNS service
      */
     DNSService dns();
-
-    /**
-     * OpenStack4j Client which authenticates against version V2
-     */
-    interface OSClientV2 extends OSClient<OSClient.OSClientV2> {
-
-        /**
-         * Returns the Identity V2 Access object assigned during authentication
-         *
-         * @return the Access object
-         */
-        Access getAccess();
-
-        /**
-         * Returns the Identity Service API V2
-         *
-         * @return the identity service version 2
-         */
-        org.openstack4j.api.identity.v2.IdentityService identity();
-
-    }
-
-    /**
-     * OpenStack4j Client which authenticates against version V3
-     */
-    interface OSClientV3 extends OSClient<OSClient.OSClientV3> {
-
-
-        /**
-         * Gets the token that was assigned during authorization
-         *
-         * @return the authentication token
-         */
-        Token getToken();
-
-        /**
-         * Returns the Identity Service API V3
-         *
-         * @return the identity service version 3
-         */
-        org.openstack4j.api.identity.v3.IdentityService identity();
-
-    }
 }
